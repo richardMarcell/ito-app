@@ -8,53 +8,66 @@
             {{ Session::get('success') }}
         </div>
     @endif
-    <div class="customer"></div>
+
     <h2 class="main--title">Data Konsumen</h2>
+
     <div class="tabular--wrapper">
-    <div class="row-button">
-                <ul class="left">
-                    <a class="tambah" name="tambah" href="{{ url('konsumen/create') }}">
-                        <i class="fa fa-plus"></i> Tambah
-                    </a>
-                </ul>
-            </div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Kode Konsumen</th>
-                        <th scope="col">Nama Konsumen</th>
-                        <th scope="col">Alamat</th>
-                        <th scope="col">No Telepon</th>
-                        <th scope="col">Terakhir Pembelian</th>
-                        <th colspan="2">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($konsumen as $key => $item)
-                        <tr>
-                            <th scope="row">{{ ++$key }}</th>
-                            <td>{{ $item->kode_konsumen }}</td>
-                            <td>{{ $item->nama_konsumen }}</td>
-                            <td>{{ $item->alamat }}</td>
-                            <td>{{ $item->no_telepon }}</td>
-                            <td>{{ \Carbon\Carbon::parse($item->terakhir_pembelian)->format('d-m-Y') }}</td>
-                            <td class="button-container">
-                                <button class="btn btn-primary fa-solid fa-pen-to-square" onclick="window.location.href='{{ url('konsumen/' . $item->id . '/edit') }}'"></button>
-                            </td>
-                            <td>
-                                <form action="{{ url('konsumen/' . $item->id) }}" method="POST" class="d-inline">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button class="btn btn-danger fa-solid fa-trash" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="row-button">
+            <ul class="left">
+                <a class="tambah" name="tambah" href="{{ url('konsumen/create') }}">
+                    <i class="fa fa-plus"></i> Tambah
+                </a>
+            </ul>
         </div>
+
+        <div>
+            <form action="{{ url('konsumen') }}" method="GET">
+                <input type="search" name="search" value="{{ $keyword }}" placeholder="Cari nama konsumen">
+                <button type="submit">Cari</button>
+            </form>
+        </div>
+
+        @if ($konsumen->isEmpty())
+            <p>Tidak ada konsumen ditemukan.</p>
+        @else
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Kode Konsumen</th>
+                            <th scope="col">Nama Konsumen</th>
+                            <th scope="col">Alamat</th>
+                            <th scope="col">No Telepon</th>
+                            <th scope="col">Terakhir Pembelian</th>
+                            <th colspan="2">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($konsumen as $key => $item)
+                            <tr>
+                                <th scope="row">{{ ++$key }}</th>
+                                <td>{{ $item->kode_konsumen }}</td>
+                                <td>{{ $item->nama_konsumen }}</td>
+                                <td>{{ $item->alamat }}</td>
+                                <td>{{ $item->no_telepon }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->terakhir_pembelian)->format('d-m-Y') }}</td>
+                                <td class="button-container">
+                                    <button class="btn btn-primary fa-solid fa-pen-to-square" onclick="window.location.href='{{ url('konsumen/' . $item->id . '/edit') }}'"></button>
+                                </td>
+                                <td>
+                                    <form action="{{ url('konsumen/' . $item->id) }}" method="POST" class="d-inline">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger fa-solid fa-trash" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
 @endsection
 

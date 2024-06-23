@@ -38,7 +38,7 @@ Route::get('/', function () {
 
     //Menampilkan Pesanan Terkini yang terhubung dengan tabel penjualan
     $penjualan = Penjualan::orderBy('created_at', 'desc')->take(7)->get();
-    
+
     return view('dashboard', compact('total_konsumen', 'total_penjualan', 'total_admin', 'konsumen', 'penjualan'));
 });
 
@@ -54,7 +54,7 @@ Route::get('dashboard', function () {
 
     //Menampilkan Pesanan Terkini yang terhubung dengan tabel penjualan
     $penjualan = Penjualan::orderBy('created_at', 'desc')->take(7)->get();
-    
+
     return view('dashboard', compact('total_konsumen', 'total_penjualan', 'total_admin', 'konsumen', 'penjualan'));
 });
 
